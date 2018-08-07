@@ -1,0 +1,13 @@
+{% extends 'calibrate/base.html' %} {% block content%}
+<div class="col-sm-10">
+    <div class="container-fluid" id="profile">
+        <h4>Username: {{user}}</h4>
+        <h4>Name: {{user.first_name}} {{user.last_name}}</h4>
+        <h4>Email: {{user.email}}</h4>
+        <br>
+        <a href="{% url 'edit_profile'%}" class="btn btn-primary" role="button">Edit Profile</a>
+        <a href="{% url 'change_password'%}" class="btn btn-primary" role="button">Change Password</a>
+        <br>
+    </div>
+</div>
+{% endblock %}
