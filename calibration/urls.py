@@ -18,8 +18,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static 
 from calibrate import views
+from django.utils.translation import ugettext_lazy as _
+
+
+admin.site.site_header = _("Retail Calibration")
+GRAPPELLI_ADMIN_TITLE = _("Retail Calibration")
+
 
 urlpatterns = [
+    path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
     path('', include('calibrate.urls', namespace='calibrate')),
     path('accounts/', include('django.contrib.auth.urls')),
