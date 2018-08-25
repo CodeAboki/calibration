@@ -1,0 +1,18 @@
+{% extends "calibrate/base.html" %} {% block content %}
+
+<a href="/staffs/add/">Add</a>
+<h2>List of {{title}}</h2>
+{% if users %}
+<ul>
+    {% for user in users %}
+    <li>
+        {{user.first_name}} &nbsp;{{user.last_name}}
+        <a href="/staffs/{{user.id}}/details">Details</a>
+        <a href="/staffs/{{user.id}}/edit">Edit</a>
+        <a href="/staffs/{{user.id}}/delete">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>There is no Staffs Available</p>
+{% endif %} {% endblock %}

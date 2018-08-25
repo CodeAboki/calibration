@@ -1,0 +1,10 @@
+{% extends "calibrate/base.html" %} {% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <table>
+        {{user_form.as_table}}
+    </table>
+    <br>
+    <button type="submit">Update Staff</button>
+</form>
+{% endblock %}

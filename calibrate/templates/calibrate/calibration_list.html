@@ -11,6 +11,7 @@
                         <th>Exp. Date</th>
                         <th>Certificate No.</th>
                         <th>Capacity</th>
+                        <th>Status</th>
                         <th>View File</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -26,6 +27,7 @@
                         <td> {{ calibration.date_expired}} </td>
                         <td> {{ calibration.certificate_number}} </td>
                         <td> {{ calibration.capacity}} </td>
+                        <td> {{ calibration.status}} </td>
                         <td> <a href="media/{{calibration.document }}" target=blank>File</a></td>
                         <td> <a href="{% url 'calibrate:calibration_edit' calibration.id %}"><span class="glyphicon glyphicon-pencil"></span></a></td>
                         <td><a href="{% url 'calibrate:calibration_delete' calibration.id %}"><span class="glyphicon glyphicon-trash"></span></a></td>
