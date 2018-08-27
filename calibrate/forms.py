@@ -3,16 +3,57 @@ from calibrate.models import Calibration, Profile
 from django.contrib.auth.models import User
 
 class UserForm(forms.ModelForm):
-    password = forms.CharField(widget = forms.PasswordInput)
+    first_name = forms.CharField(widget = forms.TextInput(
+        attrs = {
+            'class':'form-control',
+            'placeholder': 'First Name'
+        }
+    ))
+
+    last_name = forms.CharField(widget = forms.TextInput(
+        attrs = {
+            'class':'form-control',
+            'placeholder':'Last Name'
+        }
+    ))
+
+    username = forms.CharField(widget = forms.TextInput(
+        attrs = {
+            'class':'form-control',
+            'placeholder':'Username'
+        }
+    ))
+
+    email = forms.EmailField(widget = forms.TextInput(
+        attrs = {
+            'class':'form-control',
+            'placeholder':'Email'
+        }
+    ))
+
+    password = forms.CharField(widget = forms.PasswordInput (
+        attrs = {
+            'class':'form-control',
+            'placeholder':'password'
+        }
+    ))
+    
+    userType_choices = (
+        ('regular_admin', 'staff'),
+        ('super_admin', 'Admin')
+    )
+    userType = forms.ChoiceField(choices=userType_choices, widget = forms.Select(
+        attrs = {
+            'class':'form-control',
+            'placeholder':'user type'
+        }
+    ))
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name',
-         'email', 'username', 'password']
+         'email', 'username', 'userType', 'password']
     
-    label = {
-        'password': 'Password'
-    }
 
     def save(self):
         password = self.cleaned_data.pop('password')
@@ -20,6 +61,8 @@ class UserForm(forms.ModelForm):
         u. set_password(password)
         u.save()
         return u
+
+
 
 class CalibrationForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(
@@ -179,8 +222,7 @@ class CalibrationForm(forms.ModelForm):
             'class':'form-control'
         }
     ))
-
-      
+     
 
     class Meta:
         model = Calibration

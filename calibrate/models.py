@@ -69,14 +69,23 @@ class Calibration(models.Model):
  
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user_type_choices = (
+        ('regular_admin', 'Admin'),
+        ('super_admin', 'Super Admin')
+    )
+    userType = models.CharField(max_length = 50, choices = user_type_choices, blank=True, null=True)
 
     def __str__(self):
-        return "{0} {1}".format(self.user.first_name, self.user.last_name)
+        return self.user.profile.userType
 
+
+   
+
+    
 @receiver(post_save, sender=User)
 def user_is_created(sender, instance, created, **kwargs):
     print(created)
     if created:
-        Profile.create(user=instance)
+        Profile.objects.create(user=instance)
     else:
         instance.profile.save()

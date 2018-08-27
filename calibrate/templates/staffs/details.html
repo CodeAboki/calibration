@@ -1,3 +1,17 @@
 {% extends "calibrate/base.html" %} {% block content %}
-<h2>{{user.first_name}} &nbsp; {{user.last_name}}</h2>
+
+<div class="col-sm-10">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <h4><strong>Staff Detail</strong></h4>
+        </div>
+        <div class="panel-body">
+            <h3>Name: {{user.first_name}} &nbsp; {{user.last_name}}</h3>
+            <h3>Username: {{user.username}}</h3>
+            <h3>Email: {{user.email}}</h3>
+            <h3>User Type: {{user.profile.userType}}</h3>
+        </div>
+    </div>
+</div>
 {% endblock%}

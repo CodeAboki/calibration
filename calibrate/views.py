@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView,ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy, reverse
@@ -10,6 +10,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+
 
 class CalibrationList(LoginRequiredMixin, ListView):
     model = Calibration
@@ -28,10 +30,13 @@ class CalibrationDelete(LoginRequiredMixin, DeleteView):
     model = Calibration
     success_url = reverse_lazy('calibrate:calibration_list')
 
+@login_required
 def profile(request):
     args = {'user': request.user}
     return render(request, 'registration/profile.html')
 
+
+@login_required
 def edit_profile(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance = request.user)
@@ -44,6 +49,7 @@ def edit_profile(request):
         args = {'form':form}
         return render(request, 'registration/edit_profile.html', args)
 
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(data =request.POST, user = request.user)
@@ -59,17 +65,21 @@ def change_password(request):
         args = {'form':form}
         return render(request, 'registration/change_password.html', args)
 
+@login_required
 def staff_list(request):
     context = {}
     context['users'] = User.objects.all()
     context['title'] = 'Staffs'
     return render(request, 'staffs/index.html', context)
 
+@login_required
 def staff_details(request, id=None):
     context = {}
     context['user'] = get_object_or_404(User, id=id)
     return render(request, 'staffs/details.html', context)
 
+
+@login_required
 def staff_add(request):
     context = {}
     if request.method == 'POST':
@@ -77,7 +87,7 @@ def staff_add(request):
         context['user_form'] = user_form
         if user_form.is_valid():
             user_form.save()
-            return HttpResponseRedirect(reverse(staff_list))
+            return HttpResponseRedirect(reverse('calibrate:staff_list'))
         else:
             return render(request, 'staffs/add.html', context)
     else: 
@@ -85,24 +95,27 @@ def staff_add(request):
         context['user_form'] = user_form
         return render(request, 'staffs/add.html', context)
 
+@login_required
 def staff_edit(request, id=None):
     user = get_object_or_404(User, id=id)
     if request.method =='POST':
-        user_form = UserForm(request.Post, instance=user)
+        user_form = UserForm(request.POST, instance=user)
         if user_form.is_valid():
             user_form.save()
-            return HttpResponseRedirect(reverse('staff_list'))
+            return HttpResponseRedirect(reverse('calibrate:staff_list'))
         else:
             return render(request, 'staffs/edit.html', {'user_form':user_form})
     else:
         user_form = UserForm(instance=user)
         return render(request, 'staffs/edit.html', {'user_form':user_form})
 
+
+@login_required
 def staff_delete(request, id=None):
     user = get_object_or_404(User, id=id)
     if request.method == 'POST':
         user.delete()
-        return HttpResponseRedirect(reverse('staff_list'))
+        return HttpResponseRedirect(reverse('calibrate:staff_list'))
     else:
         context = {}
         context['user']=user

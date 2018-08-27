@@ -1,5 +1,5 @@
 from django.contrib import admin
-from calibrate.models import Calibration
+from calibrate.models import Calibration, Profile
 
 
 
@@ -11,3 +11,4 @@ class CalibrationAdmin(admin.ModelAdmin):
       'certificate_number', 'capacity', 'document']
 
 admin.site.register(Calibration, CalibrationAdmin)
+admin.site.register(Profile)
